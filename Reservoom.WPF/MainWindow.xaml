@@ -4,11 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reservoom.WPF"
+        
+        xmlns:views ="clr-namespace:Reservoom.WPF.Views"
+        
         mc:Ignorable="d"
         Title="Reservoom" 
         Height="450" 
         Width="800">
-    <Grid>
-
+    <Grid MaxWidth="750" Margin="20 10">
+        <views:ReservationListingView />
     </Grid>
 </Window>
