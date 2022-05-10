@@ -56,10 +56,10 @@ namespace Reservoom.WPF.ViewModels
         public ICommand? CancelCommand { get; set; }
         #endregion
 
-        public MakeReservationViewModel(Hotel hotel, 
+        public MakeReservationViewModel(HotelStore hotelStore, 
             NavigateService<ReservationListingViewModel> navigateService)
         {
-            SubmitCommand = new MakeReservationCommand(hotel, this, navigateService);
+            SubmitCommand = new MakeReservationCommand(hotelStore, this, navigateService);
             CancelCommand = new NavigateCommand<ReservationListingViewModel>(navigateService);
         }
     }

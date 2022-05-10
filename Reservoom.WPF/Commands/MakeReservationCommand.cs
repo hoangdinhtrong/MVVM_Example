@@ -1,6 +1,7 @@
 ﻿using Reservoom.WPF.Exceptions;
 using Reservoom.WPF.Models;
 using Reservoom.WPF.Services;
+using Reservoom.WPF.Stores;
 using Reservoom.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,15 +15,15 @@ namespace Reservoom.WPF.Commands
 {
     public class MakeReservationCommand : AsyncBaseCommand
     {
-        private readonly Hotel _hotel;
+        private readonly HotelStore _hotelStore;
         private readonly MakeReservationViewModel _makeReservationViewModel;
         private readonly NavigateService<ReservationListingViewModel> _navigateService;
 
-        public MakeReservationCommand(Hotel hotel, 
+        public MakeReservationCommand(HotelStore hotelStore, 
             MakeReservationViewModel makeReservationViewModel,
             NavigateService<ReservationListingViewModel> navigateService)
         {
-            _hotel = hotel;
+            _hotelStore = hotelStore;
             _makeReservationViewModel = makeReservationViewModel;
             _navigateService = navigateService;
             _makeReservationViewModel.PropertyChanged += OnViewModelPropertyChanged;
@@ -53,7 +54,8 @@ namespace Reservoom.WPF.Commands
                 );
             try
             {
-                await _hotel.MakeReservation(reservation);
+                //await _hotel.MakeReservation(reservation);
+                await _hotelStore.MakeReservation(reservation);
                 MessageBox.Show("Successfully reverved room", "Success", 
                     MessageBoxButton.OK, 
                     MessageBoxImage.Information);

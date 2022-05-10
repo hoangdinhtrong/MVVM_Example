@@ -22,22 +22,33 @@ namespace Reservoom.WPF.ViewModels
 
         public ICommand LoadReservationsCommand { get; set; }
 
-        public Hotel _hotel { get; }
-        public ReservationListingViewModel(Hotel hotel,
+        private readonly HotelStore _hotelStore;
+        public ReservationListingViewModel(HotelStore hotelStore,
             NavigateService<MakeReservationViewModel> navigateService)
         {
-            _hotel = hotel;
+            _hotelStore = hotelStore;
             _reservations = new ObservableCollection<ReservationViewModel>();
 
-            LoadReservationsCommand = new LoadReservationsCommand(hotel, this);
+            LoadReservationsCommand = new LoadReservationsCommand(hotelStore, this);
             MakeReservationCommand = new NavigateCommand<MakeReservationViewModel>(navigateService);
-
+            _hotelStore.ReservationMade += OnReservationMode;
+        }
+        public override void Dispose()
+        {
+            _hotelStore.ReservationMade -= OnReservationMode;
+            base.Dispose();
         }
 
-        public static ReservationListingViewModel LoadViewModel(Hotel hotel,
+        private void OnReservationMode(Reservation reservation)
+        {
+            ReservationViewModel reservationViewModel = new ReservationViewModel(reservation);
+            _reservations.Add(reservationViewModel);
+        }
+
+        public static ReservationListingViewModel LoadViewModel(HotelStore hotelStore,
             NavigateService<MakeReservationViewModel> navigateService)
         {
-            ReservationListingViewModel viewModel = new ReservationListingViewModel(hotel, navigateService);
+            ReservationListingViewModel viewModel = new ReservationListingViewModel(hotelStore, navigateService);
             viewModel.LoadReservationsCommand.Execute(null);
 
             return viewModel;

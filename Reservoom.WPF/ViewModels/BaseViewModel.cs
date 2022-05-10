@@ -10,11 +10,13 @@ namespace Reservoom.WPF.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
+
+        public virtual void Dispose() { }
     }
 }

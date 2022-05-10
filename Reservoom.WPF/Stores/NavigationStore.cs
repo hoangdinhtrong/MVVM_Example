@@ -14,7 +14,13 @@ namespace Reservoom.WPF.Stores
         public BaseViewModel? CurrentViewModel
         {
             get => _currentViewModel;
-            set { _currentViewModel = value; OnCurrentViewModelChagned(); }
+            set 
+            {
+                _currentViewModel?.Dispose();
+                _currentViewModel = value; 
+                OnCurrentViewModelChagned(); 
+
+            }
         }
 
         public event Action? CurrentViewModelChanged;

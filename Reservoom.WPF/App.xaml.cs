@@ -52,6 +52,7 @@ namespace Reservoom.WPF
 
                     services.AddSingleton<MainViewModel>();
 
+                    services.AddSingleton<HotelStore>();
                     services.AddSingleton<NavigationStore>();
 
                     services.AddSingleton(s => new MainWindow()
@@ -65,7 +66,7 @@ namespace Reservoom.WPF
         private static ReservationListingViewModel CreateReservationListingViewModel(IServiceProvider services)
         {
             return ReservationListingViewModel.LoadViewModel(
-                services.GetRequiredService<Hotel>(),
+                services.GetRequiredService<HotelStore>(),
                 services.GetRequiredService<NavigateService<MakeReservationViewModel>>());
         }
 
