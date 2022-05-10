@@ -48,6 +48,19 @@ namespace Reservoom.WPF.ViewModels
             get { return _endDate; }
             set { _endDate = value; OnPropertyChanged(); }
         }
+        private Reservation _createUpdateRequest = new Reservation();
+        public Reservation CreateUpdateRequest
+        {
+            get 
+            { 
+                return _createUpdateRequest; 
+            }
+            set
+            {
+                _createUpdateRequest = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -59,6 +72,8 @@ namespace Reservoom.WPF.ViewModels
         public MakeReservationViewModel(HotelStore hotelStore, 
             NavigateService<ReservationListingViewModel> navigateService)
         {
+            if(hotelStore.CreateUpdateRequest != null)
+                CreateUpdateRequest = hotelStore.CreateUpdateRequest;
             SubmitCommand = new MakeReservationCommand(hotelStore, this, navigateService);
             CancelCommand = new NavigateCommand<ReservationListingViewModel>(navigateService);
         }

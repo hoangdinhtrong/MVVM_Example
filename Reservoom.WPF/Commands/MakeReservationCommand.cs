@@ -31,8 +31,8 @@ namespace Reservoom.WPF.Commands
 
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(_makeReservationViewModel.Username) ||
-                e.PropertyName == nameof(_makeReservationViewModel.FloorNumber))
+            if(e.PropertyName == nameof(_makeReservationViewModel.CreateUpdateRequest.Username) ||
+                e.PropertyName == nameof(_makeReservationViewModel.CreateUpdateRequest.RoomID.FloorNumber))
             {
                 OnCanExecutedChanged();
             }
@@ -40,18 +40,19 @@ namespace Reservoom.WPF.Commands
 
         public override bool CanExecute(object? parameter)
         {
-            return !string.IsNullOrEmpty(_makeReservationViewModel.Username) && base.CanExecute(parameter);
+            return !string.IsNullOrEmpty(_makeReservationViewModel.CreateUpdateRequest.Username) && base.CanExecute(parameter);
         }
 
         public override async Task ExecuteAsync(object? parameter)
         {
-            Reservation reservation = new Reservation(
-                new RoomID(_makeReservationViewModel.FloorNumber, 
-                    _makeReservationViewModel.RoomNumber),
-                _makeReservationViewModel.Username,
-                _makeReservationViewModel.StartDate,
-                _makeReservationViewModel.EndDate
-                );
+            //Reservation reservation = new Reservation(
+            //    new RoomID(_makeReservationViewModel.FloorNumber, 
+            //        _makeReservationViewModel.RoomNumber),
+            //    _makeReservationViewModel.Username,
+            //    _makeReservationViewModel.StartDate,
+            //    _makeReservationViewModel.EndDate
+            //    );
+            Reservation reservation = _makeReservationViewModel.CreateUpdateRequest;
             try
             {
                 //await _hotel.MakeReservation(reservation);

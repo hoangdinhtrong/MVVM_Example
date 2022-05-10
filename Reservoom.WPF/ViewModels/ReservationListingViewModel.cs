@@ -18,19 +18,55 @@ namespace Reservoom.WPF.ViewModels
 
         public IEnumerable<ReservationViewModel> Reservations => _reservations;
 
+        private ReservationViewModel? _selectedItem;
+
+        public ReservationViewModel? SelectedItem
+        {
+            get { return _selectedItem; }
+            set { 
+                _selectedItem = value; 
+                OnPropertyChanged();
+                if(SelectedItem != null)
+                {
+                    CreateUpdateRequest.Username = SelectedItem.Username;
+                    CreateUpdateRequest.StartTime = Convert.ToDateTime(SelectedItem.StartDate);
+                    CreateUpdateRequest.EndTime = Convert.ToDateTime(SelectedItem.EndDate);
+                    CreateUpdateRequest.RoomID.FloorNumber = SelectedItem.FloorNumber;
+                    CreateUpdateRequest.RoomID.RoomNumber = SelectedItem.RoomNumber;
+                    OnPropertyChanged(nameof(CreateUpdateRequest));
+                }
+            }
+        }
+
+        private Reservation _createUpdateRequest = new Reservation();
+        public Reservation CreateUpdateRequest
+        {
+            get { return _createUpdateRequest; }
+            set { 
+                _createUpdateRequest = value; 
+                OnPropertyChanged(); 
+            }
+        }
+
         public ICommand MakeReservationCommand { get; set; }
 
         public ICommand LoadReservationsCommand { get; set; }
 
+        public ICommand UpdateCommand { get; set; }
+
         private readonly HotelStore _hotelStore;
+        private readonly NavigateService<MakeReservationViewModel> _navigateService;
+
         public ReservationListingViewModel(HotelStore hotelStore,
             NavigateService<MakeReservationViewModel> navigateService)
         {
             _hotelStore = hotelStore;
+            _navigateService = navigateService;
             _reservations = new ObservableCollection<ReservationViewModel>();
 
             LoadReservationsCommand = new LoadReservationsCommand(hotelStore, this);
-            MakeReservationCommand = new NavigateCommand<MakeReservationViewModel>(navigateService);
+            MakeReservationCommand = new RelayCommand(p => UpdateScreen(true));
+            UpdateCommand = new RelayCommand(p => UpdateScreen(false));
             _hotelStore.ReservationMade += OnReservationMode;
         }
         public override void Dispose()
@@ -52,6 +88,19 @@ namespace Reservoom.WPF.ViewModels
             viewModel.LoadReservationsCommand.Execute(null);
 
             return viewModel;
+        }
+
+        private void UpdateScreen(bool isCreate)
+        {
+            if (!isCreate)
+            {
+                _hotelStore.CreateUpdateRequest = CreateUpdateRequest;
+            }
+            else
+            {
+                _hotelStore.CreateUpdateRequest = null;
+            }
+            _navigateService.Navigate();
         }
 
         public void UpdateReservations(IEnumerable<Reservation> reservations)

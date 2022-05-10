@@ -28,6 +28,8 @@ namespace Reservoom.WPF.Stores
             await _initializeLazy.Value;
         }
 
+        public Reservation? CreateUpdateRequest { get; set; }
+
         public async Task MakeReservation(Reservation reservation)
         {
             await _hotel.MakeReservation(reservation);

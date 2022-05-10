@@ -8,6 +8,7 @@ namespace Reservoom.WPF.Models
 {
     public class RoomID
     {
+        public RoomID() { }
         public RoomID(int? floorNumber, int? roomNumber)
         {
             FloorNumber = floorNumber;

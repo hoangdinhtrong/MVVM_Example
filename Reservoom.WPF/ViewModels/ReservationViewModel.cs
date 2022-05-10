@@ -18,6 +18,10 @@ namespace Reservoom.WPF.ViewModels
 
         public string? RoomID => _reservation.RoomID?.ToString();
 
+        public int? FloorNumber => _reservation.RoomID.FloorNumber;
+
+        public int? RoomNumber => _reservation.RoomID.RoomNumber;
+
         public string Username => _reservation.Username;
 
         public string StartDate => _reservation.StartTime.ToString("d");
