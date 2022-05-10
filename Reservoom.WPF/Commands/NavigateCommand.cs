@@ -1,12 +1,13 @@
 ﻿using Reservoom.WPF.Services;
+using Reservoom.WPF.ViewModels;
 
 namespace Reservoom.WPF.Commands
 {
-    public class NavigateCommand : BaseCommand
+    public class NavigateCommand<TViewModel> : BaseCommand where TViewModel : BaseViewModel
     {
-        private readonly NavigateService _navigationService;
+        private readonly NavigateService<TViewModel> _navigationService;
 
-        public NavigateCommand(NavigateService navigationService)
+        public NavigateCommand(NavigateService<TViewModel> navigationService)
         {
             _navigationService = navigationService;
         }

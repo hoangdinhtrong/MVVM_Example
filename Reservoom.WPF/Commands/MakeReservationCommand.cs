@@ -16,11 +16,11 @@ namespace Reservoom.WPF.Commands
     {
         private readonly Hotel _hotel;
         private readonly MakeReservationViewModel _makeReservationViewModel;
-        private readonly NavigateService _navigateService;
+        private readonly NavigateService<ReservationListingViewModel> _navigateService;
 
         public MakeReservationCommand(Hotel hotel, 
             MakeReservationViewModel makeReservationViewModel,
-            NavigateService navigateService)
+            NavigateService<ReservationListingViewModel> navigateService)
         {
             _hotel = hotel;
             _makeReservationViewModel = makeReservationViewModel;

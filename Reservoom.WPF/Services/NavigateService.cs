@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Reservoom.WPF.Services
 {
-    public class NavigateService
+    public class NavigateService<TViewModel> where TViewModel : BaseViewModel
     {
         private readonly NavigationStore _navigationStore;
-        private readonly Func<BaseViewModel> _createViewModel;
+        private readonly Func<TViewModel> _createViewModel;
 
         public NavigateService(NavigationStore navigationStore, 
-            Func<BaseViewModel> createViewModel)
+            Func<TViewModel> createViewModel)
         {
             _navigationStore = navigationStore;
             _createViewModel = createViewModel;

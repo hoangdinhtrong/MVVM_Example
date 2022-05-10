@@ -16,10 +16,10 @@ namespace Reservoom.WPF.ViewModels
         private readonly ObservableCollection<ReservationViewModel> _reservations;
 
         public IEnumerable<ReservationViewModel> Reservations => _reservations;
-        public ReservationListingViewModel(NavigateService navigateService)
+        public ReservationListingViewModel(NavigateService<MakeReservationViewModel> navigateService)
         {
             _reservations = new ObservableCollection<ReservationViewModel>();
-            MakeReservationCommand = new NavigateCommand(navigateService);
+            MakeReservationCommand = new NavigateCommand<MakeReservationViewModel>(navigateService);
         }
 
         public ICommand MakeReservationCommand { get; set; }
