@@ -8,14 +8,6 @@ namespace Reservoom.WPF.Models
 {
     public class Reservation
     {
-        public Reservation(RoomID roomID, string username, DateTime startTime, DateTime endTime)
-        {
-            RoomID = roomID;
-            StartTime = startTime;
-            EndTime = endTime;
-            Username = username;
-        }
-
         public RoomID RoomID { get; set; }
 
         public string Username { get; set; }
@@ -25,6 +17,17 @@ namespace Reservoom.WPF.Models
         public DateTime EndTime { get; set; }
 
         public TimeSpan Length => EndTime.Subtract(StartTime);
+
+        public Reservation(RoomID roomID, 
+            string username, 
+            DateTime startTime, 
+            DateTime endTime)
+        {
+            RoomID = roomID;
+            StartTime = startTime;
+            EndTime = endTime;
+            Username = username;
+        }
 
         public bool Conflicts(Reservation reservation)
         {

@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace Reservoom.WPF.Commands
 {
-    public class MakeReservationCommand : BaseCommand
+    public class MakeReservationCommand : AsyncBaseCommand
     {
         private readonly Hotel _hotel;
         private readonly MakeReservationViewModel _makeReservationViewModel;
@@ -42,7 +42,7 @@ namespace Reservoom.WPF.Commands
             return !string.IsNullOrEmpty(_makeReservationViewModel.Username) && base.CanExecute(parameter);
         }
 
-        public override void Execute(object? parameter)
+        public override async Task ExecuteAsync(object? parameter)
         {
             Reservation reservation = new Reservation(
                 new RoomID(_makeReservationViewModel.FloorNumber, 
@@ -53,14 +53,24 @@ namespace Reservoom.WPF.Commands
                 );
             try
             {
-                _hotel.MakeReservation(reservation);
-                MessageBox.Show("Successfully reverved room", "Success", MessageBoxButton.OK, MessageBoxImage.Error);
+                await _hotel.MakeReservation(reservation);
+                MessageBox.Show("Successfully reverved room", "Success", 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Information);
                 _navigateService.Navigate();
             
             }
             catch(ReservationConflictException ex)
             {
-                MessageBox.Show(ex.Message,"Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message,"Error", 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
     }
