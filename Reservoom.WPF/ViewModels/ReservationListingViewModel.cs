@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Reservoom.WPF.Commands;
+using Reservoom.WPF.Services;
+using Reservoom.WPF.Stores;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,9 +16,10 @@ namespace Reservoom.WPF.ViewModels
         private readonly ObservableCollection<ReservationViewModel> _reservations;
 
         public IEnumerable<ReservationViewModel> Reservations => _reservations;
-        public ReservationListingViewModel(ObservableCollection<ReservationViewModel> reservations)
+        public ReservationListingViewModel(NavigateService navigateService)
         {
-            _reservations = reservations;
+            _reservations = new ObservableCollection<ReservationViewModel>();
+            MakeReservationCommand = new NavigateCommand(navigateService);
         }
 
         public ICommand MakeReservationCommand { get; set; }

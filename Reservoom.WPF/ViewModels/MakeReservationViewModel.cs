@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Reservoom.WPF.Commands;
+using Reservoom.WPF.Models;
+using Reservoom.WPF.Services;
+using Reservoom.WPF.Stores;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +14,7 @@ namespace Reservoom.WPF.ViewModels
     public class MakeReservationViewModel : BaseViewModel
     {
         #region Property
-        private string _username;
+        private string _username = null!;
         public string Username
         {
             get { return _username; }
@@ -35,21 +39,28 @@ namespace Reservoom.WPF.ViewModels
         public DateTime StartDate
         {
             get { return _startDate; }
-            set { _startDate = value; }
+            set { _startDate = value; OnPropertyChanged(); }
         }
 
         private DateTime _endDate;
         public DateTime EndDate
         {
             get { return _endDate; }
-            set { _endDate = value; }
+            set { _endDate = value; OnPropertyChanged(); }
         }
 
         #endregion
 
         #region Command
         public ICommand SubmitCommand { get; set; }
-        public ICommand CancelCommand { get; set; }
+        public ICommand? CancelCommand { get; set; }
         #endregion
+
+        public MakeReservationViewModel(Hotel hotel, 
+            NavigateService navigateService)
+        {
+            SubmitCommand = new MakeReservationCommand(hotel, this, navigateService);
+            CancelCommand = new NavigateCommand(navigateService);
+        }
     }
 }
